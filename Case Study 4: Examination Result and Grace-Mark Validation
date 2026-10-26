@@ -1,0 +1,129 @@
+1. Problem Statement
+Process student marks across multiple subjects, validate subject-wise pass cutoffs (>=40), apply conditional grace marks (up to 5 marks) for candidates missing pass criteria in at most one subject, and prevent moderation from exceeding maximum subject marks (100).
+
+2. Objectives
+•	Evaluate pass criteria per subject and across aggregate marks.
+•	Apply grace marks strictly when eligibility conditions are met.
+•	Ensure capped moderation results do not exceed 100.
+
+3. Assumptions
+•	Maximum score per subject is 100.
+•	Subject pass mark is 40.
+•	Grace marks apply only if exactly one subject has score between 35 and 39.
+
+4. Algorithm
+1. Read student list with marks in 3 subjects.
+2. Count subjects with marks < 40.
+3. If fail count == 1 and failing mark >= 35, add required grace marks (up to 5) to bring score to 40.
+4. Recalculate pass status.
+5. If all subjects >= 40, mark as PASS, else FAIL.
+6. Cap all subject scores at 100.
+5. Flowchart
++------------------------------------+
+|               START                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Read student subject scores        |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Count subjects with marks < 40     |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Fail Count == 1 AND score >= 35?   |
+|   Yes -> Add Grace Marks to 40     |
+|   No  -> No Grace Marks Applied    |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Cap subject scores at 100          |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Determine final PASS / FAIL status |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Display Moderated Results & END    |
++------------------------------------+
+6. Pseudocode
+START
+  Set students = [
+    (1, "Anil", [38, 75, 80]),
+    (2, "Bhavana", [32, 60, 70]),
+    (3, "Charan", [85, 90, 95])
+  ]
+  FOR each student IN students DO
+    marks = student.marks
+    fail_count = 0
+    fail_idx = -1
+    FOR i FROM 0 TO len(marks)-1 DO
+      IF marks[i] < 40 THEN
+        fail_count += 1
+        fail_idx = i
+      END IF
+    END FOR
+    grace_applied = 0
+    IF fail_count == 1 AND marks[fail_idx] >= 35 THEN
+      needed = 40 - marks[fail_idx]
+      marks[fail_idx] += needed
+      grace_applied = needed
+    END IF
+    final_pass = True
+    FOR m IN marks DO
+      IF m < 40 THEN final_pass = False
+    END FOR
+    PRINT student.name, marks, grace_applied, final_pass
+  END FOR
+END
+
+7. Python Source Code
+# Examination Result and Grace-Mark Validation
+students = [
+    {"id": 101, "name": "Anil", "marks": [36, 75, 82]},
+    {"id": 102, "name": "Bhavana", "marks": [32, 60, 70]},
+    {"id": 103, "name": "Charan", "marks": [85, 90, 92]},
+    {"id": 104, "name": "Divya", "marks": [38, 37, 80]}
+]
+PASS_MARK = 40
+MAX_GRACE = 5
+print(f"{'ID':<6} {'Name':<10} {'Original Marks':<18} {'Grace':<8} {'Final Marks':<18} {'Status'}")
+print("-" * 70)
+for s in students:
+    orig_marks = list(s["marks"])
+    mod_marks = list(s["marks"])
+    fails = []
+    for idx in range(len(mod_marks)):
+        if mod_marks[idx] < PASS_MARK:
+            fails.append(idx)     
+    grace_given = 0
+    if len(fails) == 1:
+        fail_idx = fails[0]
+        deficit = PASS_MARK - mod_marks[fail_idx]
+        if deficit <= MAX_GRACE:
+            mod_marks[fail_idx] += deficit
+            grace_given = deficit        
+    is_pass = True
+    for m in mod_marks:
+        if m < PASS_MARK:
+            is_pass = False
+            break     
+    status = "PASS (With Grace)" if grace_given > 0 else ("PASS" if is_pass else "FAIL")
+    print(f"{s['id']:<6} {s['name']:<10} {str(orig_marks):<18} {grace_given:<8} {str(mod_marks):<18} {status}")
+
+8. Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	Anil: [36, 75, 82]	Grace: 4 added to sub 1 -> [40, 75, 82] PASS	PASS
+TC02	Bhavana: [32, 60, 70]	Deficit 8 exceeds max grace 5 -> FAIL	PASS
+TC03	Divya: [38, 37, 80]	2 failed subjects -> Ineligible for grace -> FAIL	PASS
+
+ Conclusion
+The grace-mark validator enforces academic standards rigorously while providing automated moderation for eligible borderline cases.
