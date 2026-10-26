@@ -1,6 +1,54 @@
 Problem Statement
 Evaluate multiple telecommunications plans based on monthly usage (call minutes, data GB, SMS count), calculate overage charges, compare total costs, and recommend the most economical eligible plan within budget constraints.
 
+Objectives
+•	Compute base price plus usage overages across calls, data, and SMS.
+•	Filter plans exceeding maximum budget.
+•	Identify the absolute lowest cost plan for given usage pattern.
+Assumptions
+•	All plan allowances and rates are fixed positive numbers.
+•	Overage rates apply per extra minute, GB, or SMS.
+ Algorithm
+1. Store plan parameters (Name, Base Cost, Call Allowance, Call Rate, Data Allowance, Data Rate, SMS Allowance, SMS Rate).
+2. Input actual user consumption (calls, data, SMS) and user budget.
+3. For each plan, calculate extra calls, extra data, and extra SMS.
+4. Calculate total plan cost = Base Cost + Overages.
+5. Filter plans where total cost <= budget.
+6. Select plan with minimum cost among eligible plans.
+
+Flowchart
++------------------------------------+
+|               START                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Read user usage & max budget       |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| For each plan in catalog:          |
+|  Compute overage for calls, data,  |
+|  and SMS.                          |
+|  Total = Base + Overages           |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Filter plans where Total <= Budget |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Select plan with minimum Total Cost|
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Display comparison table & END     |
++------------------------------------+
+
 Pseudocode
 START
   Set user_calls = 450, user_data = 15, user_sms = 100, budget = 600
