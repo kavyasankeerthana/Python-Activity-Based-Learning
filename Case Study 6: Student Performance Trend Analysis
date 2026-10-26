@@ -1,0 +1,106 @@
+1. Problem Statement
+Process a 2D matrix of student marks across multiple sequential mid-term examinations, calculate examination averages, identify improvements or performance declines across tests, flag consistently weak subjects (<40 mark average), and classify overall performance trends.
+
+2. Objectives
+•	Calculate student-wise and exam-wise average performance.
+•	Analyze trajectory (improving, declining, fluctuating).
+•	Identify chronically weak subjects requiring remedial attention.
+
+3. Assumptions
+•	Assessment marks are stored in chronological order [Exam 1, Exam 2, Exam 3].
+•	Consistency is evaluated by comparing consecutive test variations.
+
+4. Algorithm
+1. Store marks as nested list: each student row contains list of test scores.
+2. For each student, compute mean score across tests.
+3. Compare scores: if T3 > T2 > T1 -> 'Improving'; if T3 < T2 < T1 -> 'Declining'; else 'Fluctuating'.
+4. Identify tests where average score fell below subject benchmark (40).
+5. Generate comprehensive performance summary.
+5. Flowchart
++------------------------------------+
+|               START                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Read Nested Marks Matrix           |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| For each student row:              |
+|  Compute Average Score             |
+|  Evaluate E1 vs E2 vs E3 trend     |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Trajectory Analysis:               |
+|  E3 > E2 > E1 -> Improving         |
+|  E3 < E2 < E1 -> Declining         |
+|  Otherwise    -> Fluctuating       |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Flag Weak Performance (< 40)       |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Output Trajectory Matrix & END     |
++------------------------------------+
+
+6. Pseudocode
+START
+  Set records = [
+    ("Anil", [45, 58, 72]),
+    ("Bhavana", [80, 65, 50]),
+    ("Charan", [55, 40, 60])
+  ]
+  FOR each (name, marks) IN records DO
+    avg = SUM(marks) / len(marks)
+    IF marks[2] > marks[1] AND marks[1] > marks[0] THEN
+      trend = "Improving"
+    ELSE IF marks[2] < marks[1] AND marks[1] < marks[0] THEN
+      trend = "Declining"
+    ELSE
+      trend = "Fluctuating"
+    END IF
+    weak = False
+    IF avg < 40 THEN weak = True
+    PRINT name, avg, trend, weak
+  END FOR
+END
+
+7. Python Source Code
+# Student Performance Trend Analysis
+students_data = [
+    {"name": "Anil", "scores": [45, 58, 72]},
+    {"name": "Bhavana", "scores": [82, 68, 52]},
+    {"name": "Charan", "scores": [55, 42, 60]},
+    {"name": "Divya", "scores": [35, 38, 32]}
+]
+print(f"{'Student':<10} {'Exam 1':<8} {'Exam 2':<8} {'Exam 3':<8} {'Average':<10} {'Trend Trajectory':<15} {'Status'}")
+print("-" * 75)
+for s in students_data:
+    sc = s["scores"]
+    avg = sum(sc) / len(sc)
+    if sc[2] > sc[1] and sc[1] > sc[0]:
+        trend = "Improving"
+    elif sc[2] < sc[1] and sc[1] < sc[0]:
+        trend = "Declining"
+    else:
+        trend = "Fluctuating"
+    status = "Weak (Needs Help)" if avg < 40 else "Satisfactory"H
+    print(f"{s['name']:<10} {sc[0]:<8} {sc[1]:<8} {sc[2]:<8} {avg:<10.2f} {trend:<15} {status}")
+
+8. Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	Anil: [45, 58, 72]	Average: 58.33, Trend: Improving	PASS
+TC02	Bhavana: [82, 68, 52]	Average: 67.33, Trend: Declining	PASS
+TC03	Divya: [35, 38, 32]	Average: 35.00, Status: Weak (Needs Help)	PASS
+
+Conclusion
+Matrix-based performance analysis highlights learning trends over time, enabling timely academic interventions for declining or weak students
+
