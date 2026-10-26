@@ -97,5 +97,11 @@ for p in plans:
     print(f"{p['name']:<15} Rs.{p['base']:<7} Rs.{overage:<7.2f} Rs.{total:<7.2f} {eligible:<10}")
 print("-" * 60)
 print(f"Recommended Optimal Plan: {best_plan} (Total Cost: Rs.{lowest_cost:.2f})")
+Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	450 mins, 15 GB, 100 SMS | Budget: 600	Value Pack total cost Rs. 444.0 (Optimal)	PASS
+TC02	100 mins, 2 GB, 10 SMS | Budget: 200	Basic Saver total cost Rs. 199.0	PASS
+TC03	800 mins, 25 GB, 300 SMS | Budget: 500	No eligible plan within budget	PASS
+
 
 
