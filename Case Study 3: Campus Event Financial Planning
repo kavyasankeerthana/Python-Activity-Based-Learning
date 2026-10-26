@@ -1,0 +1,49 @@
+Problem Statement
+Calculate total campus event execution expenses across venue, catering, equipment, transport, and certificates; incorporate participant contributions and sponsorship funding; and determine sponsorship shortfalls alongside break-even registration numbers.
+
+Pseudocode
+START
+  Set venue = 15000, equipment = 8000, transport = 5000
+  Set catering_per_head = 250, cert_per_head = 50
+  Set fee_per_student = 500, expected_students = 120
+  Set sponsorship = 20000
+  fixed_cost = venue + equipment + transport
+  var_cost_per_head = catering_per_head + cert_per_head
+  total_cost = fixed_cost + (var_cost_per_head * expected_students)
+  total_collection = fee_per_student * expected_students
+  net_financial_position = (total_collection + sponsorship) - total_cost
+  contribution_margin = fee_per_student - var_cost_per_head
+  breakeven_count = (fixed_cost - sponsorship) / contribution_margin
+  PRINT total_cost, net_financial_position, breakeven_count
+END
+
+Python Source Code
+# Campus Event Financial Planning
+venue_cost = 15000
+equipment_cost = 8000
+transport_cost = 5000
+catering_per_person = 250
+certificate_per_person = 50
+registration_fee = 500
+expected_participants = 120
+sponsorship_amount = 20000
+fixed_costs = venue_cost + equipment_cost + transport_cost
+variable_cost_per_person = catering_per_person + certificate_per_person
+total_expenses = fixed_costs + (variable_cost_per_person * expected_participants)
+total_fee_collected = registration_fee * expected_participants
+total_revenue = total_fee_collected + sponsorship_amount
+profit_loss = total_revenue - total_expenses
+# Break-even calculation (net fixed costs after sponsorship / contribution margin per student)
+net_fixed_cost = max(0, fixed_costs - sponsorship_amount)
+contribution_margin = registration_fee - variable_cost_per_person
+breakeven_participants = net_fixed_cost / contribution_margin
+print("=== CAMPUS EVENT FINANCIAL BUDGET REPORT ===")
+print(f"Total Fixed Expenses      : Rs. {fixed_costs}")
+print(f"Variable Cost per Person  : Rs. {variable_cost_per_person}")
+print(f"Total Projected Expenses  : Rs. {total_expenses}")
+print(f"Sponsorship Funds         : Rs. {sponsorship_amount}")
+print(f"Registration Fee Revenue  : Rs. {total_fee_collected}")
+print(f"Net Financial Balance     : Rs. {profit_loss} ({'SURPLUS' if profit_loss >= 0 else 'DEFICIT'})")
+print(f"Minimum Registrations to Break-Even : {int(breakeven_participants) if breakeven_participants == int(breakeven_participants) else int(breakeven_participants)+1} students")
+
+
