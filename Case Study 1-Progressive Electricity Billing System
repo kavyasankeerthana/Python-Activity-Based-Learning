@@ -1,0 +1,184 @@
+1. Problem Statement
+Calculate household electricity bills using progressive slabs (0-100 units @ Rs.3, 101-200 @ Rs.5, 201-300 @ Rs.7, above 300 @ Rs.9), add fixed charges (Rs.50), apply surcharge (8% if > 400 units) and rebate (5% for online payments), compare month-wise bills, and flag unusual increases exceeding 30%.
+2. Objectives
+•	Calculate tier-based energy charge accurately.
+•	Incorporate fixed charges, conditional surcharges, and online rebates.
+•	Compare bills across multiple billing periods to detect sudden consumption spikes (>30%).
+3. Assumptions
+•	Units consumed are non-negative whole numbers.
+•	Slab rates apply progressively only to consumption within each respective band.
+•	First month has no baseline comparison.
+4. Algorithm
+1. Read consumption units and payment method.
+2. Compute slab charges: first 100 units at 3, next 100 at 5, next 100 at 7, remaining at 9.
+3. Add fixed charge of Rs. 50.
+4. If units > 400, add 8% surcharge on energy charge.
+5. If online payment, subtract 5% rebate from (energy + fixed + surcharge).
+6. Compare total bill with previous month; flag if increase > 30%.
+5. Flowchart
++------------------------------------+
+|               START                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Input consumption units & online   |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Compute energy charges via slabs   |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Add Fixed Charge (Rs. 50)          |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Units > 400?                       |
+|   Yes -> Add 8% Surcharge          |
+|   No  -> Skip                      |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Paid Online?                       |
+|   Yes -> Subtract 5% Rebate        |
+|   No  -> Skip                      |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Compare with prev month (>30% alert)|
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Print Monthly Statement & END      |
++------------------------------------+
+6. Pseudocode
+START
+  Set SLABS = [(100, 3.0), (100, 5.0), (100, 7.0)]
+  Set TOP_RATE = 9.0, FIXED_CHARGE = 50
+  Set previous_bill = 0
+
+  FOR each month in reading_list DO
+    units = month.units
+    rem = units
+    energy = 0
+
+    IF rem > 100 THEN energy += 100 * 3.0; rem -= 100
+    ELSE energy += rem * 3.0; rem = 0
+
+    IF rem > 0 THEN
+      IF rem > 100 THEN energy += 100 * 5.0; rem -= 100
+      ELSE energy += rem * 5.0; rem = 0
+
+    IF rem > 0 THEN
+      IF rem > 100 THEN energy += 100 * 7.0; rem -= 100
+      ELSE energy += rem * 7.0; rem = 0
+
+    IF rem > 0 THEN energy += rem * TOP_RATE
+
+    surcharge = 0
+    IF units > 400 THEN surcharge = energy * 0.08
+
+    subtotal = energy + FIXED_CHARGE + surcharge
+    rebate = 0
+    IF month.paid_online THEN rebate = subtotal * 0.05
+
+    total = subtotal - rebate
+
+    alert = False
+    IF previous_bill > 0 AND total > (previous_bill * 1.30) THEN
+      alert = True
+
+    PRINT month.name, units, energy, total, alert
+    previous_bill = total
+  END FOR
+END
+7. Python Source Code
+# Progressive Electricity Billing System
+
+monthly_data = [
+    ("Jan", 120, True),
+    ("Feb", 130, True),
+    ("Mar", 150, True),
+    ("Apr", 240, True),
+    ("May", 260, False),
+    ("Jun", 450, True)
+]
+
+FIXED_CHARGE = 50.0
+previous_total = 0.0
+
+print("Month  Units  Energy   Fixed  Surch.  Rebate   Total   Status")
+print("-" * 65)
+
+for month_name, units, paid_online in monthly_data:
+    rem = units
+    energy = 0.0
+    
+    # Slab 1: 0 - 100
+    if rem > 100:
+        energy += 100 * 3.0
+        rem -= 100
+    else:
+        energy += rem * 3.0
+        rem = 0
+        
+    # Slab 2: 101 - 200
+    if rem > 0:
+        if rem > 100:
+            energy += 100 * 5.0
+            rem -= 100
+        else:
+            energy += rem * 5.0
+            rem = 0
+            
+    # Slab 3: 201 - 300
+    if rem > 0:
+        if rem > 100:
+            energy += 100 * 7.0
+            rem -= 100
+        else:
+            energy += rem * 7.0
+            rem = 0
+            
+    # Above 300
+    if rem > 0:
+        energy += rem * 9.0
+        
+    surcharge = 0.0
+    if units > 400:
+        surcharge = energy * 0.08
+        
+    subtotal = energy + FIXED_CHARGE + surcharge
+    rebate = 0.0
+    if paid_online:
+        rebate = subtotal * 0.05
+        
+    total = subtotal - rebate
+    
+    alert = ""
+    if previous_total > 0 and total > (previous_total * 1.30):
+        alert = "UNUSUAL INCREASE"
+        
+    previous_total = total
+    
+    print(f"{month_name:<6} {units:<6} {energy:<8.2f} {FIXED_CHARGE:<6.2f} {surcharge:<7.2f} {rebate:<7.2f} {total:<8.2f} {alert}")
+
+8. Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	120 units, Online	Energy: 400.0, Fixed: 50.0, Surch: 0.0, Rebate: 22.5, Total: 427.50	PASS
+TC02	450 units, Online	Energy: 2850.0, Surch: 228.0, Rebate: 156.40, Total: 2971.60	PASS
+TC03	Apr (240) vs Mar (150)	Bill jumps from 570.0 to 1073.5 (>30% spike)	PASS (Unusual Increase Flagged)
+
+9. Output Screenshot
+
+10. Conclusion
+The progressive electricity billing model accurately calculates multi-slab tariff structures, incorporates conditional charges and discounts, and effectively alerts users to anomalous month-over-month consumption spikes.
+
+ 
