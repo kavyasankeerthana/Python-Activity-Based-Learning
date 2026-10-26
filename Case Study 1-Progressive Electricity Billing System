@@ -148,5 +148,14 @@ for month_name, units, paid_online in monthly_data:
     previous_total = total
     print(f"{month_name:<6} {units:<6} {energy:<8.2f} {FIXED_CHARGE:<6.2f} {surcharge:<7.2f} {rebate:<7.2f} {total:<8.2f} {alert}")
 
+Test Cases
+Test ID	Input        Scenario               	Expected Outcome	                       Result
+TC01	120 units, Online	Energy: 400.0, Fixed: 50.0, Surch: 0.0, Rebate: 22.5, Total: 427.50	PASS
+TC02	450 units, Online	Energy: 2850.0, Surch: 228.0, Rebate: 156.40, Total: 2971.60	PASS
+TC03	Apr (240) vs Mar (150)	Bill jumps from 570.0 to 1073.5 (>30% spike)	PASS (Unusual Increase Flagged)
+
+Conclusion
+The progressive electricity billing model accurately calculates multi-slab tariff structures, incorporates conditional charges and discounts, and effectively alerts users to anomalous month-over-month consumption spikes.
+
 
  
