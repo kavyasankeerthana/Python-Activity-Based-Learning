@@ -1,0 +1,105 @@
+1. Problem Statement
+Cross-evaluate student records across four distinct audit stages: Fee Clearance (Rs.0 pending), Attendance Eligibility (>=75%), Internal Assessment Criteria (>=20/50), and Exam Hall Ticket issuance eligibility, reporting precise reasons for any hold.
+2. Objectives
+•	Perform multi-criteria integrated student auditing.
+•	Generate specific, multi-reason non-eligibility reports.
+•	Issue hall ticket authorization flags.
+3. Assumptions
+•	A student must pass ALL four conditions simultaneously to receive a hall ticket.
+4. Algorithm
+1. Read student audit dictionary records.
+2. Check Fee Due == 0.
+3. Check Attendance >= 75%.
+4. Check Internal Marks >= 20.
+5. Collect all failure reasons in a list.
+6. If reason list is empty -> Eligible = True; else Eligible = False.
+7. Output audit table and reason log.
+5. Flowchart
++------------------------------------+
+|               START                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Read Student Multi-Attribute Record|
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Audit 1: Fee Due == 0?             |
+| Audit 2: Attendance >= 75%?        |
+| Audit 3: Internal Marks >= 20?     |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Any Failures?                      |
+|   Yes -> Log specific reasons      |
+|   No  -> Authorize Hall Ticket     |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Output Audit Clearance Report & END|
++------------------------------------+
+6. Pseudocode
+START
+  Set students = [
+    {"id": "S101", "name": "Anil", "fee": 0, "att": 82, "internal": 28},
+    {"id": "S102", "name": "Bhavana", "fee": 1500, "att": 68, "internal": 15}
+  ]
+
+  FOR each s IN students DO
+    reasons = []
+    IF s.fee > 0 THEN APPEND "Unpaid Fee" TO reasons
+    IF s.att < 75 THEN APPEND "Low Attendance" TO reasons
+    IF s.internal < 20 THEN APPEND "Low Internal Marks" TO reasons
+
+    IF len(reasons) == 0 THEN
+      ticket = "ISSUED"
+    ELSE
+      ticket = "HELD: " + JOIN(reasons)
+    END IF
+
+    PRINT s.id, s.name, ticket
+  END FOR
+END
+7. Python Source Code
+# Integrated University Fee and Eligibility Audit
+
+students = [
+    {"id": "21NR1A0501", "name": "Anil", "fee_due": 0, "attendance": 85, "internal": 32},
+    {"id": "21NR1A0502", "name": "Bhavana", "fee_due": 2500, "attendance": 80, "internal": 28},
+    {"id": "21NR1A0503", "name": "Charan", "fee_due": 0, "attendance": 65, "internal": 18},
+    {"id": "21NR1A0504", "name": "Divya", "fee_due": 0, "attendance": 90, "internal": 45}
+]
+
+print("=== UNIVERSITY COMPREHENSIVE ELIGIBILITY AUDIT ===")
+print(f"{'Student ID':<12} {'Name':<10} {'Fee Due':<10} {'Att. %':<8} {'Internal':<10} {'Hall Ticket Status'}")
+print("-" * 75)
+
+for s in students:
+    reasons = []
+    if s["fee_due"] > 0:
+        reasons.append(f"Fee Pending (Rs.{s['fee_due']})")
+    if s["attendance"] < 75:
+        reasons.append(f"Low Att. ({s['attendance']}%)")
+    if s["internal"] < 20:
+        reasons.append(f"Low Int. ({s['internal']}/50)")
+        
+    if len(reasons) == 0:
+        status = "APPROVED / ISSUED"
+    else:
+        status = "BLOCKED: " + ", ".join(reasons)
+        
+    print(f"{s['id']:<12} {s['name']:<10} Rs.{s['fee_due']:<7} {s['attendance']:<8} {s['internal']:<10} {status}")
+
+8. Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	Anil: Fee 0, Att 85%, Int 32	APPROVED / ISSUED	PASS
+TC02	Bhavana: Fee 2500, Att 80%, Int 28	BLOCKED: Fee Pending (Rs.2500)	PASS
+TC03	Charan: Fee 0, Att 65%, Int 18	BLOCKED: Low Att. (65%), Low Int. (18/50)	PASS
+
+Conclusion
+The integrated audit engine consolidates financial and academic compliance records into clear hall ticket authorization decisions.
+
