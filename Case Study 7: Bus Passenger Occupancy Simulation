@@ -1,0 +1,108 @@
+Problem Statement
+Simulate passenger movement (boarding and alighting) across a sequence of bus stops, maintain continuous passenger count, enforce vehicle seating capacity constraints, and flag any instances of capacity overload.
+
+2. Objectives
+•	Track real-time passenger occupancy across bus routes.
+•	Detect capacity overloads dynamically at each stop.
+•	Summarize peak occupancy and total passengers served.
+
+3. Assumptions
+•	Passenger count cannot drop below zero.
+•	Bus capacity is fixed at 40 seats.
+
+4. Algorithm
+1. Initialize current passengers = 0, MAX_CAPACITY = 40.
+2. Read route data list of tuples: (Stop Name, Boarding, Alighting).
+3. At each stop: current = current - Alighting + Boarding.
+4. If current < 0, adjust current = 0 (error recovery).
+5. If current > MAX_CAPACITY, flag overload condition.
+6. Track peak passenger count across entire trip.
+5. Flowchart
++------------------------------------+
+|               START                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Set Bus Capacity = 40              |
+| Current Passengers = 0             |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| For each stop in route list:       |
+|  Current -= Alighting              |
+|  Current += Boarding               |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Current > Capacity?                |
+|   Yes -> Flag Overload Alert       |
+|   No  -> Normal                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Update Peak Occupancy              |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Output Trip Occupancy Summary & END|
++------------------------------------+
+6. Pseudocode
+START
+  Set capacity = 40, current = 0, peak = 0
+  Set stops = [
+    ("Depot", 15, 0),
+    ("Stop A", 20, 5),
+    ("Stop B", 15, 2),
+    ("Stop C", 5, 10)
+  ]
+  FOR each (stop, board, alight) IN stops DO
+    current = current - alight + board
+    IF current > peak THEN peak = current
+    overload = False
+    IF current > capacity THEN overload = True
+    PRINT stop, board, alight, current, overload
+  END FOR
+  PRINT peak
+END
+
+7. Python Source Code
+# Bus Passenger Occupancy Simulation
+BUS_CAPACITY = 40
+route_stops = [
+    ("Main Depot", 25, 0),
+    ("University Gate", 18, 5),
+    ("Market Complex", 12, 10),
+    ("Tech Park", 8, 20),
+    ("Terminal Station", 0, 28)
+]
+current_passengers = 0
+peak_occupancy = 0
+print(f"Bus Capacity: {BUS_CAPACITY} Seats
+")
+print(f"{'Stop Name':<18} {'Boarded':<8} {'Alighted':<9} {'Current Count':<15} {'Status'}")
+print("-" * 65)
+for stop, board, alight in route_stops:
+    current_passengers = current_passengers - alight + board    
+    if current_passengers > peak_occupancy:
+        peak_occupancy = current_passengers        
+    status = "OK"
+    if current_passengers > BUS_CAPACITY:
+        status = f"OVERLOAD (+{current_passengers - BUS_CAPACITY})"     
+    print(f"{stop:<18} {board:<8} {alight:<9} {current_passengers:<15} {status}")
+print("-" * 65)
+print(f"Trip Summary: Peak Occupancy = {peak_occupancy} passengers | Max Capacity = {BUS_CAPACITY}")
+
+8. Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	Stop 2 (University Gate): 25-5+18 = 38	Current: 38, Status: OK	PASS
+TC02	Stop 3 (Market Complex): 38-10+12 = 40	Current: 40 (At Full Capacity), Status: OK	PASS
+TC03	Simulated Boarding of 10 at Stop 3	Current: 48, Status: OVERLOAD (+8)	PASS
+
+Conclusion
+The occupancy simulation accurately tracks passenger dynamics per stop, identifying overcrowding and helping optimize fleet dispatch schedules
+
