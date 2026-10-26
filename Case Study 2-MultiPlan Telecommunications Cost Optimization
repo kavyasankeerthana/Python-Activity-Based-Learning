@@ -1,0 +1,53 @@
+Problem Statement
+Evaluate multiple telecommunications plans based on monthly usage (call minutes, data GB, SMS count), calculate overage charges, compare total costs, and recommend the most economical eligible plan within budget constraints.
+
+Pseudocode
+START
+  Set user_calls = 450, user_data = 15, user_sms = 100, budget = 600
+  Set plans = [PlanA, PlanB, PlanC]
+  best_plan = None
+  min_cost = 999999
+  FOR each plan IN plans DO
+    call_over = MAX(0, user_calls - plan.call_limit) * plan.call_rate
+    data_over = MAX(0, user_data - plan.data_limit) * plan.data_rate
+    sms_over = MAX(0, user_sms - plan.sms_limit) * plan.sms_rate
+    total_cost = plan.base + call_over + data_over + sms_over
+    IF total_cost <= budget AND total_cost < min_cost THEN
+      min_cost = total_cost
+      best_plan = plan.name
+    END IF
+  END FOR
+  PRINT best_plan, min_cost
+
+Python Source Code
+# Multi-Plan Telecommunications Cost Optimization
+plans = [
+    {"name": "Basic Saver", "base": 199, "calls": 300, "call_rate": 1.0, "data": 5, "data_rate": 20, "sms": 100, "sms_rate": 0.5},
+    {"name": "Value Pack", "base": 399, "calls": 500, "call_rate": 0.5, "data": 12, "data_rate": 15, "sms": 200, "sms_rate": 0.2},
+    {"name": "Unlimited Max", "base": 599, "calls": 1000, "call_rate": 0.0, "data": 30, "data_rate": 0, "sms": 500, "sms_rate": 0.0}
+]
+usage_calls = 450
+usage_data = 15
+usage_sms = 100
+budget = 600
+print(f"User Usage: {usage_calls} Mins, {usage_data} GB, {usage_sms} SMS | Budget: Rs.{budget}
+")
+print(f"{'Plan Name':<15} {'Base Cost':<10} {'Overages':<10} {'Total Cost':<10} {'Eligible?':<10}")
+print("-" * 60)
+best_plan = None
+lowest_cost = 999999
+for p in plans:
+    extra_calls = max(0, usage_calls - p["calls"]) * p["call_rate"]
+    extra_data = max(0, usage_data - p["data"]) * p["data_rate"]
+    extra_sms = max(0, usage_sms - p["sms"]) * p["sms_rate"]
+    overage = extra_calls + extra_data + extra_sms
+    total = p["base"] + overage
+    eligible = "Yes" if total <= budget else "No (Over Budget)"
+    if total <= budget and total < lowest_cost:
+        lowest_cost = total
+        best_plan = p["name"]    
+    print(f"{p['name']:<15} Rs.{p['base']:<7} Rs.{overage:<7.2f} Rs.{total:<7.2f} {eligible:<10}")
+print("-" * 60)
+print(f"Recommended Optimal Plan: {best_plan} (Total Cost: Rs.{lowest_cost:.2f})")
+
+
