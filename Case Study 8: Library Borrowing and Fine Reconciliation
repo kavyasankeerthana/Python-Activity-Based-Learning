@@ -1,0 +1,117 @@
+. Problem Statement
+Analyze student library borrowing records represented as tuples (Book ID, Days Kept, Allowed Days), calculate late return delays, apply progressive fine slabs (Rs.2/day for first 5 days late, Rs.5/day thereafter), and summarize overdue penalties.
+2. Objectives
+•	Process tuple structured borrowing logs.
+•	Determine overdue delay days.
+•	Apply tiered fine policies and summarize total outstanding dues.
+3. Assumptions
+•	Standard borrowing limit is 14 days.
+•	Fine rates: 1-5 days overdue @ Rs.2/day, >5 days @ Rs.5/day.
+4. Algorithm
+1. Read records tuple list: (Book_ID, Days_Kept, Allowed_Days).
+2. Overdue Days = MAX(0, Days_Kept - Allowed_Days).
+3. If Overdue <= 0 -> Fine = 0.
+4. If 1 <= Overdue <= 5 -> Fine = Overdue * 2.
+5. If Overdue > 5 -> Fine = (5 * 2) + ((Overdue - 5) * 5).
+6. Sum total library fines across all records.
+5. Flowchart
++------------------------------------+
+|               START                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Read Borrowing Tuples (ID, Kept, Max)|
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Delay = Kept - Max                 |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Delay <= 0?                        |
+|   Yes -> Fine = 0                  |
+|   No  -> Calculate Tier Fine       |
+|          (1-5 days @ 2, >5 @ 5)    |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Accumulate Total Library Dues      |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Output Fine Audit Statement & END  |
++------------------------------------+
+6. Pseudocode
+START
+  Set records = [
+    ("BK101", 12, 14),
+    ("BK102", 18, 14),
+    ("BK103", 25, 14)
+  ]
+
+  total_fine = 0
+
+  FOR each (book_id, kept, allowed) IN records DO
+    delay = kept - allowed
+
+    IF delay <= 0 THEN
+      fine = 0
+    ELSE IF delay <= 5 THEN
+      fine = delay * 2
+    ELSE
+      fine = (5 * 2) + ((delay - 5) * 5)
+    END IF
+
+    total_fine += fine
+    PRINT book_id, delay, fine
+  END FOR
+
+  PRINT total_fine
+END
+7. Python Source Code
+# Library Borrowing and Fine Reconciliation
+
+borrow_records = [
+    ("BK-2021", 12, 14),   # On time
+    ("BK-3045", 18, 14),   # 4 days late (4 * 2 = Rs. 8)
+    ("BK-1102", 24, 14),   # 10 days late (5*2 + 5*5 = 10 + 25 = Rs. 35)
+    ("BK-4099", 14, 14)    # On time
+]
+
+print(f"{'Book ID':<10} {'Days Kept':<10} {'Allowed':<10} {'Overdue Days':<14} {'Fine Charged (Rs.)'}")
+print("-" * 60)
+
+grand_total_fine = 0
+
+for book_id, kept, allowed in borrow_records:
+    delay = max(0, kept - allowed)
+    
+    if delay == 0:
+        fine = 0
+    elif delay <= 5:
+        fine = delay * 2
+    else:
+        fine = (5 * 2) + ((delay - 5) * 5)
+        
+    grand_total_fine += fine
+    
+    print(f"{book_id:<10} {kept:<10} {allowed:<10} {delay:<14} Rs. {fine}")
+
+print("-" * 60)
+print(f"Total Outstanding Library Fine Reconciliation: Rs. {grand_total_fine}")
+
+8. Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	BK-2021: Kept 12, Allowed 14	Overdue: 0 days -> Fine: Rs. 0	PASS
+TC02	BK-3045: Kept 18, Allowed 14	Overdue: 4 days -> 4 * 2 = Rs. 8	PASS
+TC03	BK-1102: Kept 24, Allowed 14	Overdue: 10 days -> (5*2)+(5*5) = Rs. 35	PASS
+
+Conclusion
+The library reconciliation program accurately parses borrowing tuples, enforces multi-tier fine structures, and calculates total pending dues.
+
+
