@@ -1,7 +1,58 @@
-Problem Statement
+Case Study 3: Campus Event Financial Planning
+1. Problem Statement
 Calculate total campus event execution expenses across venue, catering, equipment, transport, and certificates; incorporate participant contributions and sponsorship funding; and determine sponsorship shortfalls alongside break-even registration numbers.
+2. Objectives
+•	Aggregate fixed and variable expense components.
+•	Compute net sponsorship gap or surplus.
+•	Determine break-even participant count required at given registration fee.
 
-Pseudocode
+3. Assumptions
+•	Fixed costs include venue and equipment.
+•	Variable costs per participant include catering and certificates.
+4. Algorithm
+1. Define venue cost, equipment cost, transport cost.
+2. Define per-participant catering fee and certificate cost.
+3. Calculate Total Fixed Cost = venue + equipment + transport.
+4. Calculate Variable Cost per Person = catering + certificate.
+5. Total Expenses = Fixed Cost + (Variable Cost * Expected Participants).
+6. Net Revenue Required = Total Expenses - Sponsorship.
+7. Break-Even Count = Fixed Cost / (Registration Fee - Variable Cost per Person).
+5. Flowchart
++------------------------------------+
+|               START                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Set venue, equipment, catering rate|
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Calculate Fixed & Variable Costs   |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Compute Total Event Expenditure    |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Subtract Sponsorship Funding       |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Compute Break-Even Registrations   |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Display Financial Plan & END       |
++------------------------------------+
+
+6. Pseudocode
 START
   Set venue = 15000, equipment = 8000, transport = 5000
   Set catering_per_head = 250, cert_per_head = 50
@@ -17,7 +68,7 @@ START
   PRINT total_cost, net_financial_position, breakeven_count
 END
 
-Python Source Code
+7. Python Source Code
 # Campus Event Financial Planning
 venue_cost = 15000
 equipment_cost = 8000
@@ -33,7 +84,6 @@ total_expenses = fixed_costs + (variable_cost_per_person * expected_participants
 total_fee_collected = registration_fee * expected_participants
 total_revenue = total_fee_collected + sponsorship_amount
 profit_loss = total_revenue - total_expenses
-# Break-even calculation (net fixed costs after sponsorship / contribution margin per student)
 net_fixed_cost = max(0, fixed_costs - sponsorship_amount)
 contribution_margin = registration_fee - variable_cost_per_person
 breakeven_participants = net_fixed_cost / contribution_margin
@@ -46,4 +96,11 @@ print(f"Registration Fee Revenue  : Rs. {total_fee_collected}")
 print(f"Net Financial Balance     : Rs. {profit_loss} ({'SURPLUS' if profit_loss >= 0 else 'DEFICIT'})")
 print(f"Minimum Registrations to Break-Even : {int(breakeven_participants) if breakeven_participants == int(breakeven_participants) else int(breakeven_participants)+1} students")
 
+8. Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	120 Students, Rs.20,000 Sponsorship	Expenses: 64k, Revenue: 80k, Surplus: 16k	PASS
+TC02	50 Students, Rs.5,000 Sponsorship	Deficit detected, Break-even count recalculated	PASS
+TC03	Zero Sponsorship	Break-even requires 140 participants	PASS
 
+ Conclusion
+The financial planning script provides clear visibility into event viability, revenue shortfalls, and minimum break-even registration thresholds.
