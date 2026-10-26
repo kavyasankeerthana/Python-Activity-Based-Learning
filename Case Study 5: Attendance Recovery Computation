@@ -1,0 +1,109 @@
+1. Problem Statement
+Calculate current attendance percentage from attended and total classes held, determine eligibility against a minimum threshold (75%), and calculate the minimum consecutive upcoming classes a student must attend to recover eligibility under various future scenarios.
+
+2. Objectives
+•	Compute current attendance percentage accurately.
+•	Determine exact recovery deficit in terms of consecutive future classes.
+•	Simulate future scenarios based on anticipated upcoming schedule.
+
+3. Assumptions
+•	Attended classes cannot exceed total classes conducted.
+•	Student will attend 100% of upcoming recovery classes.
+
+4. Algorithm
+1. Read attended classes (A) and total held classes (T).
+2. Current Percentage = (A / T) * 100.
+3. If Percentage >= 75%, student is eligible (0 recovery classes needed).
+4. Else, calculate required future classes N such that (A + N) / (T + N) >= 0.75.
+5. N = ceil((0.75 * T - A) / (1 - 0.75)) = ceil((3*T - 4*A)).
+6. Display current status and required recovery classes.
+
+5. Flowchart
+                      +------------------------------------+
+                      |               START                |
+                      +------------------------------------+
+                                        |
+                                        v
+                      +------------------------------------+
+                      | Input Attended (A) & Total (T)     |
+                      +------------------------------------+
+                                        |
+                                        v
+                      +------------------------------------+
+                      | Compute Current % = (A / T) * 100   |
+                      +------------------------------------+
+                                        |
+                                        v
+                      +------------------------------------+
+                      | Current % >= 75%?                  |
+                      |   Yes -> Eligible (0 Needed)       |
+                      |   No  -> Calculate N = (3*T - 4*A) |
+                      +------------------------------------+
+                                       |
+                                       v
+                      +------------------------------------+
+                      | Display Attendance & Recovery Plan |
+                      +------------------------------------+
+                                        |
+                                        v
+                      +------------------------------------+
+                      |                END                 |
+                      +------------------------------------+
+6. Pseudocode
+START
+  Set students = [
+    ("Anil", 45, 70),
+    ("Bhavana", 60, 70),
+    ("Charan", 30, 50)
+  ]
+  FOR each (name, attended, total) IN students DO
+    curr_pct = (attended / total) * 100
+    IF curr_pct >= 75.0 THEN
+      needed = 0
+      status = "Eligible"
+    ELSE
+      # (attended + N) / (total + N) >= 0.75
+      # attended + N >= 0.75*total + 0.75*N
+      # 0.25*N >= 0.75*total - attended
+      # N >= 3*total - 4*attended
+      needed = (3 * total) - (4 * attended)
+      IF needed < 0 THEN needed = 0
+      status = "Shortage"
+    END IF
+    PRINT name, curr_pct, status, needed
+  END FOR
+END
+
+7. Python Source Code
+# Attendance Recovery Computation
+students = [
+    {"name": "Anil", "attended": 45, "total": 70},
+    {"name": "Bhavana", "attended": 58, "total": 70},
+    {"name": "Charan", "attended": 30, "total": 60}
+]
+TARGET_PCT = 75.0
+print(f"{'Student Name':<12} {'Attended':<10} {'Total':<8} {'Current %':<12} {'Status':<12} {'Recovery Classes Needed'}")
+print("-" * 75)
+for s in students:
+    a = s["attended"]
+    t = s["total"]
+    pct = (a / t) * 100.0  
+    if pct >= TARGET_PCT:
+        status = "Eligible"
+        needed = 0
+    else:
+        status = "Ineligible"
+        # Solve (a + n) / (t + n) >= 0.75
+        needed = (3 * t) - (4 * a)
+        if needed < 0:
+            needed = 0
+    print(f"{s['name']:<12} {a:<10} {t:<8} {pct:<12.2f} {status:<12} {needed} consecutive classes")
+
+8. Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	Anil: 45 / 70 (64.29%)	Target 75% requires 3*70 - 4*45 = 30 recovery classes	PASS
+TC02	Bhavana: 58 / 70 (82.86%)	Current % >= 75% -> 0 classes needed	PASS
+TC03	Charan: 30 / 60 (50.00%)	Target 75% requires 3*60 - 4*30 = 60 recovery classes	PASS
+
+Conclusion
+The attendance recovery tool gives students actionable metrics on exact class counts needed to regain academic exam eligibility.
