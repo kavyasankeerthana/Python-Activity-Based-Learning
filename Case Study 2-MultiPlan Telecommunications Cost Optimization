@@ -17,37 +17,36 @@ Assumptions
 6. Select plan with minimum cost among eligible plans.
 
 Flowchart
-+------------------------------------+
+
 |               START                |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Read user usage & max budget       |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | For each plan in catalog:          |
 |  Compute overage for calls, data,  |
 |  and SMS.                          |
 |  Total = Base + Overages           |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Filter plans where Total <= Budget |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
 | Select plan with minimum Total Cost|
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Display comparison table & END     |
-+------------------------------------+
+
 
 Pseudocode
 START
