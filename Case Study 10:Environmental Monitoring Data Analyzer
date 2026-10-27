@@ -1,0 +1,96 @@
+1. Problem Statement
+Analyze nested lists of environmental quality readings (e.g., Air Quality Index - AQI across multiple sampling stations over a week), calculate average and extreme (min/max) values, and classify ambient environmental safety levels against threshold standards.
+2. Objectives
+•	Process 2D environmental monitoring sensor matrices.
+•	Calculate spatial and temporal average AQI levels.
+•	Categorize pollution levels according to standard environmental safety indexes.
+3. Assumptions
+•	AQI values: 0-50 Good, 51-100 Moderate, 101-150 Unhealthy for Sensitive Groups, >150 Unhealthy.
+4. Algorithm
+1. Read nested list matrix: Station rows with 7 daily AQI readings.
+2. For each station, compute Mean, Min, and Max AQI.
+3. Classify safety category based on station average.
+4. Compute regional overall average.
+5. Generate environmental audit summary.
+5. Flowchart
++------------------------------------+
+|               START                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Read Sensor Matrix (Stations x Days|
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| For each station:                  |
+|  Compute Mean, Minimum, Maximum    |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Classify AQI Category:             |
+|  0-50   : Good                     |
+|  51-100 : Moderate                 |
+|  >100   : Unhealthy                |
++------------------------------------+
+                  |
+                  v
++------------------------------------+
+| Output Environmental Report & END  |
++------------------------------------+
+6. Pseudocode
+START
+  Set stations = [
+    ("Station Alpha", [42, 48, 55, 38, 40, 45, 50]),
+    ("Station Beta", [110, 125, 140, 105, 115, 130, 120])
+  ]
+
+  FOR each (name, readings) IN stations DO
+    avg_aqi = SUM(readings) / len(readings)
+    min_aqi = MIN(readings)
+    max_aqi = MAX(readings)
+
+    IF avg_aqi <= 50 THEN cat = "Good"
+    ELSE IF avg_aqi <= 100 THEN cat = "Moderate"
+    ELSE IF avg_aqi <= 150 THEN cat = "Unhealthy for Sensitive Groups"
+    ELSE cat = "Unhealthy"
+
+    PRINT name, avg_aqi, min_aqi, max_aqi, cat
+  END FOR
+END
+7. Python Source Code
+# Environmental Monitoring Data Analyzer
+
+stations_data = [
+    {"station": "Downtown Hub", "aqi_readings": [42, 48, 52, 45, 38, 40, 46]},
+    {"station": "Industrial Zone", "aqi_readings": [115, 128, 142, 135, 120, 110, 130]},
+    {"station": "Suburban Park", "aqi_readings": [25, 30, 28, 32, 22, 27, 29]}
+]
+
+print("=== ENVIRONMENTAL AIR QUALITY INDEX (AQI) ANALYSIS ===")
+print(f"{'Station Name':<18} {'Min AQI':<10} {'Max AQI':<10} {'Avg AQI':<10} {'Safety Category'}")
+print("-" * 65)
+for s in stations_data:
+    r = s["aqi_readings"]
+    min_v = min(r)
+    max_v = max(r)
+    avg_v = sum(r) / len(r)
+    if avg_v <= 50:
+        category = "Good (Safe)"
+    elif avg_v <= 100:
+        category = "Moderate"
+    elif avg_v <= 150:
+        category = "Unhealthy (Sensitive)"
+    else:
+        category = "Unhealthy (Severe)"
+    print(f"{s['station']:<18} {min_v:<10} {max_v:<10} {avg_v:<10.1f} {category}")
+
+8. Test Cases
+Test ID	Input Scenario	Expected Outcome	Result
+TC01	Downtown Hub Avg: 44.4	Category: Good (Safe)	PASS
+TC02	Industrial Zone Avg: 125.7	Category: Unhealthy (Sensitive)	PASS
+TC03	Suburban Park Avg: 27.6	Category: Good (Safe)	PASS
+Conclusion
+The environmental analyzer aggregates multi-station readings to provide continuous ecological safety monitoring and threshold classification.
