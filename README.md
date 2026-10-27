@@ -7,13 +7,13 @@ Branch & Section - CSD 1
 Python Activity Based Learning
 
 Selected 10 Case Studies 
-1. Student Grade System
-2. Banking Management System
-3. Library Management System
-4. Inventory Management System
-5. Employee Payroll System
-6. Quiz Application
-7. Hospital Management System
-8. E-commerce Cart System
-9. Attendance Management System
-10. Expense Tracker System
+CASE STUDY 1: Progressive Electricity Billing
+CASE STUDY 2: Multi-Plan Telecommunications Cost Optimization
+CASE STUDY 3: Campus Event Financial Planning
+CASE STUDY 4: Examination Result and Grace-Mark Validation
+CASE STUDY 5: Attendance Recovery Computation
+CASE STUDY 6: Student Performance Trend Analysis
+CASE STUDY 7: Bus Passenger Occupancy Simulation
+CASE STUDY 8: Library Borrowing and Fine Reconciliation
+CASE STUDY 9: Integrated University Fee and Eligibility Audit
+CASE STUDY 10: Environmental Monitoring Data Analyzer
