@@ -18,48 +18,46 @@ Assumptions
 5. If online payment, subtract 5% rebate from (energy + fixed + surcharge).
 6. Compare total bill with previous month; flag if increase > 30%.
  Flowchart
-+------------------------------------+
 |               START                |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Input consumption units & online   |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Compute energy charges via slabs   |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Add Fixed Charge (Rs. 50)          |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Units > 400?                       |
 |   Yes -> Add 8% Surcharge          |
 |   No  -> Skip                      |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
 | Paid Online?                       |
 |   Yes -> Subtract 5% Rebate        |
 |   No  -> Skip                      |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Compare with prev month (>30% alert)|
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Print Monthly Statement & END      |
-+------------------------------------+
+
 
 Pseudocode
 START
