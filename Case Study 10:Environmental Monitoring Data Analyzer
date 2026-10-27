@@ -13,33 +13,33 @@ Analyze nested lists of environmental quality readings (e.g., Air Quality Index 
 4. Compute regional overall average.
 5. Generate environmental audit summary.
 5. Flowchart
-+------------------------------------+
+
 |               START                |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Read Sensor Matrix (Stations x Days|
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | For each station:                  |
 |  Compute Mean, Minimum, Maximum    |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Classify AQI Category:             |
 |  0-50   : Good                     |
 |  51-100 : Moderate                 |
 |  >100   : Unhealthy                |
-+------------------------------------+
+
                   |
                   v
-+------------------------------------+
+
 | Output Environmental Report & END  |
-+------------------------------------+
+
 6. Pseudocode
 START
   Set stations = [
