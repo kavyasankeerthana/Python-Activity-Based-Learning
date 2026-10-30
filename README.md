@@ -7,6 +7,7 @@ Branch & Section - CSD 1
 Python Activity Based Learning
 
 Selected 10 Case Studies 
+
 CASE STUDY 1: Progressive Electricity Billing
 
 CASE STUDY 2: Multi-Plan Telecommunications Cost Optimization
